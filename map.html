@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MapLibre GL JS Example</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <link href="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+
+    <style>
+        body { margin: 0; padding: 0; }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.js"></script>
+
+<script>
+    
+    // Initialize the map
+    var map = new maplibregl.Map({
+        container: 'map', // ID of the div element to render the map in
+        // Using a style from demotiles.maplibre.org (requires no API key)
+        // This is a basic style often used for demos.
+        style: 'http://localhost:8000/noCountryName.json',
+        center: [45.154, 24.087], // Initial map center [longitude, latitude] (Note: MapLibre uses LngLat)
+        zoom: 4,                  // Initial map zoom level
+        attributionControl: true  // Show attribution control (recommended)
+    });
+
+    // Add zoom and rotation controls to the map.
+    map.addControl(new maplibregl.NavigationControl({
+        showCompass: true,
+        showZoom: true
+    }), 'top-right');
+
+    // Add fullscreen control
+    map.addControl(new maplibregl.FullscreenControl(), 'top-right');
+
+    // Add geolocate control
+    map.addControl(new maplibregl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showUserHeading: true
+    }), 'top-left');
+
+    // Add a scale control
+    map.addControl(new maplibregl.ScaleControl({
+        maxWidth: 100, // Max width of the scale control in pixels
+        unit: 'metric' // 'metric', 'imperial', or 'nautical'
+    }), 'bottom-left');
+
+
+    // Event listeners (optional, for demonstration)
+    map.on('load', function () {
+        console.log('Map loaded successfully!');
+
+        // Example: Log map center and zoom on move
+        map.on('moveend', function() {
+            console.log('Map moved. New center:', map.getCenter(), 'Zoom:', map.getZoom());
+        });
+
+        // You can add sources and layers programmatically here if needed
+        // For example, to add a marker:
+        // new maplibregl.Marker()
+        //     .setLngLat([45.154, 24.087])
+        //     .setPopup(new maplibregl.Popup().setText('Hello from Riyadh area!')) // A simple popup
+        //     .addTo(map);
+    });
+
+    map.on('error', function(e) {
+        console.error('MapLibre GL Error:', e.error ? e.error.message : e);
+    });
+
+</script>
+
+</body>
+</html>
