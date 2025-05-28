@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>MapLibre + PMTiles</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.0.2/dist/pmtiles.js"></script>
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    debugger
+    // Register PMTiles protocol BEFORE map is initialized
+    const protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol("pmtiles", protocol.tile);
+
+    // Define style inline
+    const style = {
+      "version": 8,
+      "sources": {
+        "mylocal": {
+          "type": "vector",
+          "url": "pmtiles://http://localhost:8000/gccstates.pmtiles"
+        }
+      },
+      "layers": [
+        {
+          "id": "background",
+          "type": "background",
+          "paint": {
+            "background-color": "#f0f0f0"
+          }
+        },
+        {
+          "id": "water",
+          "type": "fill",
+          "source": "mylocal",
+          "source-layer": "water",
+          "paint": {
+            "fill-color": "#aadaff"
+          }
+        }
+      ]
+    };
+
+    // Create the map AFTER protocol is added
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: style,
+      center: [47.7, 23.7],
+      zoom: 4
+    });
+  </script>
+</body>
+</html>
