@@ -12,7 +12,7 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "pmtiles:http://localhost:8000/gcc-states.pmtiles"
+      "url": "pmtiles://http://localhost:8000/gccstates.pmtiles"
     }
   },
   "sprite": "https://api.maptiler.com/maps/openstreetmap/sprite",
